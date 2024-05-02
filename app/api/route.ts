@@ -27,8 +27,6 @@ export async function POST(request: Request) {
     });
   } catch (error) {
     console.log(error)
-    return new Response("Error Fetching Data", {
-        status: 500
-    })
+    return new Response("Error Fetching Data")
   }
 }
