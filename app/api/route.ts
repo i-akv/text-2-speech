@@ -5,28 +5,25 @@ export async function POST(request: Request) {
 
   if (body.input === "") return new Error("input is empty!");
 
-  try {
-    const response = await fetch(
-      "https://api-inference.huggingface.co/models/facebook/fastspeech2-en-ljspeech",
-      {
-        headers: {
-          Authorization: `Bearer ${process.env.HUGGING_FACE_API_TOKEN}`,
-        },
-        method: "POST",
-        body: JSON.stringify({
-          inputs: body.input,
-        }),
-      }
-    );
-
-    const audioData = await response.arrayBuffer();
-    return new Response(audioData, {
+  const response = await fetch(
+    "https://api-inference.huggingface.co/models/facebook/fastspeech2-en-ljspeech",
+    {
       headers: {
-        "Content-Type": "audio/mpeg",
+        Authorization: `Bearer ${process.env.HUGGING_FACE_API_TOKEN}`,
       },
-    });
-  } catch (error) {
-    console.log(error)
-    return new Response("Error Fetching Data")
-  }
+      method: "POST",
+      body: JSON.stringify({
+        inputs: body.input,
+      }),
+    }
+  );
+
+  if (!response.ok) return;
+
+  const audioData = await response.arrayBuffer();
+  return new Response(audioData, {
+    headers: {
+      "Content-Type": "audio/mpeg",
+    },
+  });
 }
