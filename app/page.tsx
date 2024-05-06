@@ -26,6 +26,10 @@ export default function Home() {
           input,
         }),
       });
+      if (!response.ok) {
+        console.error("Some Error Occured..");
+        return;
+      }
       const audioData = await response.arrayBuffer();
       const blob = new Blob([audioData], { type: "audio/mpeg" });
       const url = URL.createObjectURL(blob);
@@ -55,13 +59,19 @@ export default function Home() {
         rows={9}
       />
       <Button onClick={handleClick} className="w-full">
-        <AudioLines/>
+        <AudioLines />
       </Button>
       {loading && <LoaderIcon className="animate-spin" />}
       {audioURL && (
         <>
           <Separator className="bg-accent-foreground" />
-          <audio className="w-full h-8" src={audioURL} controls autoPlay title={input+".mp4"}></audio>
+          <audio
+            className="w-full h-8"
+            src={audioURL}
+            controls
+            autoPlay
+            title={input + ".mp4"}
+          ></audio>
         </>
       )}
     </main>

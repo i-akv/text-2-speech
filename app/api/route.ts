@@ -3,7 +3,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 export async function POST(request: Request) {
   const body = await request.json();
 
-  if (body.input === "") return new Error("input is empty!");
+  if (body.input === "") return;
 
   const response = await fetch(
     "https://api-inference.huggingface.co/models/facebook/fastspeech2-en-ljspeech",
